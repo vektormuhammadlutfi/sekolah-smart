@@ -1,11 +1,8 @@
 "use client";
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Progress } from '@/components/ui/progress';
+// import { Progress } from '@/components/ui/progress';
 import { 
   Users, 
   UserCheck, 
@@ -13,10 +10,8 @@ import {
   DollarSign, 
   BookOpen, 
   AlertTriangle,
-  TrendingUp,
   Clock,
   CheckCircle,
-  XCircle,
   Bell,
   Settings,
   LogOut,
@@ -37,7 +32,7 @@ const dashboardStats = [
   },
   {
     title: "Kehadiran Hari Ini",
-    value: "94.2%",
+    value: "94%",
     change: "+2.1%",
     changeType: "positive", 
     icon: <UserCheck className="h-5 w-5" />
@@ -126,33 +121,22 @@ export default function Dashboard() {
               <BarChart3 className="h-5 w-5" />
               <span>Dashboard</span>
             </a>
-            <a href="#" className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-              <Users className="h-5 w-5" />
-              <span>Data Siswa</span>
-            </a>
-            <a href="#" className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-              <UserCheck className="h-5 w-5" />
-              <span>Presensi</span>
-            </a>
-            <a href="#" className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-              <CreditCard className="h-5 w-5" />
-              <span>Pembayaran</span>
-            </a>
-            <a href="#" className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-              <BookOpen className="h-5 w-5" />
-              <span>LMS</span>
-            </a>
-            <a href="#" className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-              <FileText className="h-5 w-5" />
-              <span>Laporan</span>
-            </a>
-            <a href="#" className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-              <Settings className="h-5 w-5" />
-              <span>Pengaturan</span>
-            </a>
+            {/** Menu Links */}
+            {[
+              { name: "Data Siswa", icon: <Users className="h-5 w-5" /> },
+              { name: "Presensi", icon: <UserCheck className="h-5 w-5" /> },
+              { name: "Pembayaran", icon: <CreditCard className="h-5 w-5" /> },
+              { name: "LMS", icon: <BookOpen className="h-5 w-5" /> },
+              { name: "Laporan", icon: <FileText className="h-5 w-5" /> },
+              { name: "Pengaturan", icon: <Settings className="h-5 w-5" /> }
+            ].map(item => (
+              <a href="#" key={item.name} className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                {item.icon}
+                <span>{item.name}</span>
+              </a>
+            ))}
           </div>
         </nav>
-
         <div className="absolute bottom-4 left-4 right-4">
           <Button variant="outline" className="w-full justify-start" size="sm">
             <LogOut className="h-4 w-4 mr-2" />
@@ -168,7 +152,7 @@ export default function Dashboard() {
           onClick={() => setSidebarOpen(false)}
         />
       )}
-
+      
       {/* Main Content */}
       <div className="lg:ml-64">
         {/* Header */}
@@ -242,27 +226,15 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span>Siswa</span>
-                        <span>94.2%</span>
+                    {["Siswa", "Guru", "Staff"].map((role) => (
+                      <div key={role}>
+                        <div className="flex justify-between text-sm mb-2">
+                          <span>{role}</span>
+                          <span>{role === "Siswa" ? "94%" : role === "Guru" ? "98%" : "96%"}</span>
+                        </div>
+                        {/* <Progress value={role === "Siswa" ? 94 : role === "Guru" ? 98 : 96} className="h-2" /> */}
                       </div>
-                      <Progress value={94.2} className="h-2" />
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span>Guru</span>
-                        <span>98.5%</span>
-                      </div>
-                      <Progress value={98.5} className="h-2" />
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span>Staff</span>
-                        <span>96.8%</span>
-                      </div>
-                      <Progress value={96.8} className="h-2" />
-                    </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
@@ -275,22 +247,17 @@ export default function Dashboard() {
                 <CardDescription>Akses fitur yang sering digunakan</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button className="w-full justify-start" variant="outline">
-                  <Users className="h-4 w-4 mr-2" />
-                  Tambah Siswa Baru
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Buat Jadwal Pelajaran
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Generate Laporan
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Bell className="h-4 w-4 mr-2" />
-                  Kirim Pengumuman
-                </Button>
+                {[
+                  { name: "Tambah Siswa Baru", icon: <Users className="h-4 w-4 mr-2" /> },
+                  { name: "Buat Jadwal Pelajaran", icon: <Calendar className="h-4 w-4 mr-2" /> },
+                  { name: "Generate Laporan", icon: <FileText className="h-4 w-4 mr-2" /> },
+                  { name: "Kirim Pengumuman", icon: <Bell className="h-4 w-4 mr-2" /> },
+                ].map(action => (
+                  <Button key={action.name} className="w-full justify-start" variant="outline">
+                    {action.icon}
+                    {action.name}
+                  </Button>
+                ))}
               </CardContent>
             </Card>
           </div>
